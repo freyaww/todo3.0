@@ -13,11 +13,11 @@ import Footer from './layout/footer.jsx'
 import Todo from './views/todo/todo.vue'
 
 export default {
-    components: {
-        Header,
-        Footer,
-        Todo
-    }
+  components: {
+    Header,
+    Footer,
+    Todo
+  }
 }
 </script>
 
