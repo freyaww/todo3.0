@@ -17,7 +17,5 @@ module.exports = (isDev) => {
         // }
         // preloader: {},
         // postloader: {}
-
-
     }
 }

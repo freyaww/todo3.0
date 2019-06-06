@@ -59,14 +59,14 @@ if(isDev){
         devServer,
         plugins: defaultPlugins.concat([
             new webpack.HotModuleReplacementPlugin(), //添加两个插件用于hot:true的配置
-            new webpack.NoEmitOnErrorsPlugin()
+            // new webpack.NoEmitOnErrorsPlugin()     //webpack4取消掉了
         ])
     })
 } else{
     config = merge(baseConfig, {
         entry: {
             app: path.join(__dirname,'../client/index.js'),
-            vendor: ['vue']
+            // vendor: ['vue']  // 升级webpack4后，不用写这个了，新添加的splitChunks默认会把所有代码打包到vendor里面
         },
         output: {
             filename: '[name].[chunkhash:8].js' //此处一定是chunkhash,因为用hash时app和vendor的hash码是一样的了,这样每次业务代码更新,vendor也会更新,也就没有了意义.
@@ -89,14 +89,21 @@ if(isDev){
                 })
             }]
         },
+        optimization: {
+            splitChunks: {
+                chunks: 'all'
+            },
+            runtimeChunk: true
+        },
         plugins: defaultPlugins.concat([
             new ExtractPlugin('styles.[contentHash:8].css'),   //定义打包分离出的css文件名
-            new webpack.optimize.CommonsChunkPlugin({          //定义静态文件打包
-                name: 'vendor'
-            }),
-            new webpack.optimize.CommonsChunkPlugin({         //将app.js文件中一些关于webpack文件的配置单独打包出为一个文件,用于解决部分浏览器长缓存问题
-                name: 'runtime'
-            })
+            // CommonsChunkPlugin在webpack4中被废弃了，解决方案是前面添加optimization
+            // new webpack.optimize.CommonsChunkPlugin({          //定义静态文件打包
+            //     name: 'vendor'
+            // }),
+            // new webpack.optimize.CommonsChunkPlugin({         //将app.js文件中一些关于webpack文件的配置单独打包出为一个文件,用于解决部分浏览器长缓存问题
+            //     name: 'runtime'
+            // })
         ])
     })
 }

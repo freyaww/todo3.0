@@ -7,6 +7,7 @@ const cteateVueLoaderOptions = require('./vue-loader.config')
 const isDev = process.env.NODE_ENV === "development"    //判断是否为测试环境,在启动脚本时设置的环境变量都是存在于process.env这个对象里面的
 
 const config = {
+    mode: process.env.NODE_ENV || 'production',  //development(开发时的优化) || production(生产环境下的优化)
     target: "web",                                      //设置webpack的编译目标是web平台
     entry: path.join(__dirname,'../client/index.js'),         //声明js文件入口,__dirname就是我们文件的根目录,用join拼接
     output:{                                            //声明出口文件
